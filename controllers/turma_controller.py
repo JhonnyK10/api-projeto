@@ -1,47 +1,33 @@
 from flask import request, jsonify
-from models.turma import Turma
-from config import db
+from models.turma import Turma, adicionar_turma, listar_turmas, turma_por_id, atualizar_turma, excluir_turma, TurmaNaoEncontrada
 
 def create_turma():
     data = request.get_json()
-    new_turma = Turma(
-        descricao=data['descricao'],
-        ativo=data['ativo'],
-        professor_id=data['professor_id']
-    )
-    db.session.add(new_turma)
-    db.session.commit()
+    adicionar_turma(data)
     return jsonify({'message': 'Turma criada com sucesso!'}), 201
 
 def get_turmas():
-    turmas = Turma.query.all()
-    return jsonify([turma.serialize() for turma in turmas]), 200
+    turmas = listar_turmas()
+    return jsonify(turmas), 200
 
 def get_turma(turma_id):
-    turma = Turma.query.get(turma_id)
-    if turma:
-        return jsonify(turma.serialize()), 200
-    else:
+    try:
+        turma = turma_por_id(turma_id)
+        return jsonify(turma), 200
+    except TurmaNaoEncontrada:
         return jsonify({'message': 'Turma não encontrada!'}), 404
 
 def update_turma(turma_id):
     data = request.get_json()
-    turma = Turma.query.get(turma_id)
-    if turma:
-        turma.descricao = data.get('descricao', turma.descricao)
-        turma.ativo = data.get('ativo', turma.ativo)
-        turma.professor_id = data.get('professor_id', turma.professor_id)
-        db.session.commit()
+    try:
+        atualizar_turma(turma_id, data)
         return jsonify({'message': 'Turma atualizada com sucesso!'}), 200
-    else:
+    except TurmaNaoEncontrada:
         return jsonify({'message': 'Turma não encontrada!'}), 404
 
 def delete_turma(turma_id):
-    turma = Turma.query.get(turma_id)
-    if turma:
-        db.session.delete(turma)
-        db.session.commit()
+    try:
+        excluir_turma(turma_id)
         return jsonify({'message': 'Turma deletada com sucesso!'}), 200
-    else:
+    except TurmaNaoEncontrada:
         return jsonify({'message': 'Turma não encontrada!'}), 404
-
