@@ -15,7 +15,6 @@ class Professor(db.Model):
         self.materia = materia
         self.observacoes = observacoes
 
-    # Adicionando o método to_dict()
     def to_dict(self):
         return {
             'id': self.id,
@@ -25,7 +24,6 @@ class Professor(db.Model):
             'observacoes': self.observacoes
         }
 
-# Funções CRUD para Professor
 
 class ProfessorNaoEncontrado(Exception):
     pass

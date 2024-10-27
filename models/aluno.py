@@ -12,7 +12,6 @@ class Aluno(db.Model):
     nota_segundo_semestre = db.Column(db.Float, nullable=False)
     media_final = db.Column(db.Float, nullable=False)
 
-    # Chave estrangeira para Turma (muitos alunos para uma turma)
     turma_id = db.Column(db.Integer, db.ForeignKey('turma.id'), nullable=False)
     turma_relacao = db.relationship('Turma', backref='turma_alunos', lazy=True)
 
@@ -51,7 +50,6 @@ def listar_alunos():
     return [aluno.to_dict() for aluno in alunos]
 
 def adicionar_aluno(aluno_data):
-    # Converte data de nascimento para datetime.date
     data_nascimento = datetime.strptime(aluno_data['data_nascimento'], '%Y-%m-%d').date()
 
     novo_aluno = Aluno(
@@ -61,7 +59,7 @@ def adicionar_aluno(aluno_data):
         nota_primeiro_semestre=float(aluno_data['nota_primeiro_semestre']),
         nota_segundo_semestre=float(aluno_data['nota_segundo_semestre']),
         media_final=float(aluno_data['media_final']),
-        turma_id=aluno_data['turma_id']  # Usando a chave estrangeira turma_id
+        turma_id=aluno_data['turma_id'] 
     )
 
     db.session.add(novo_aluno)
@@ -78,7 +76,7 @@ def atualizar_aluno(id_aluno, novos_dados):
     aluno.nota_primeiro_semestre = float(novos_dados['nota_primeiro_semestre'])
     aluno.nota_segundo_semestre = float(novos_dados['nota_segundo_semestre'])
     aluno.media_final = float(novos_dados['media_final'])
-    aluno.turma_id = int(novos_dados['turma_id'])  # Atualiza a relação com a turma
+    aluno.turma_id = int(novos_dados['turma_id'])  
 
     db.session.commit()
 

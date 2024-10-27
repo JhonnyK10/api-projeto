@@ -29,7 +29,7 @@ def create_aluno():
         'nota_primeiro_semestre': float(request.form['nota_primeiro_semestre']),
         'nota_segundo_semestre': float(request.form['nota_segundo_semestre']),
         'media_final': float(request.form['media_final']),
-        'turma_id': int(request.form['turma_id'])  # Certifique-se de que turma_id está sendo enviado
+        'turma_id': int(request.form['turma_id'])  
     }
     adicionar_aluno(novo_aluno)
     return redirect(url_for('alunos.get_alunos'))
@@ -51,7 +51,7 @@ def update_aluno(id_aluno):
         'nota_primeiro_semestre': float(request.form['nota_primeiro_semestre']),
         'nota_segundo_semestre': float(request.form['nota_segundo_semestre']),
         'media_final': float(request.form['media_final']),
-        'turma_id': int(request.form['turma_id'])  # Certifique-se de que turma_id está presente
+        'turma_id': int(request.form['turma_id']) 
     }
     try:
         atualizar_aluno(id_aluno, novos_dados)

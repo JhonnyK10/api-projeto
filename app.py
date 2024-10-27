@@ -4,12 +4,10 @@ from routes.aluno_routes import alunos_blueprint
 from routes.professor_routes import professores_blueprint
 from routes.turma_routes import turmas_blueprint
 
-# Registrar o blueprint de alunos
 app.register_blueprint(alunos_blueprint, url_prefix='/api')
 app.register_blueprint(professores_blueprint, url_prefix='/api')
 app.register_blueprint(turmas_blueprint, url_prefix='/api')
 
-# Criar as tabelas no banco de dados
 with app.app_context():
     db.create_all()
 

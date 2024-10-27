@@ -7,10 +7,7 @@ class Turma(db.Model):
     descricao = db.Column(db.String(100), nullable=False)
     ativo = db.Column(db.Boolean, default=True)
 
-    # Chave estrangeira para Professor
     professor_id = db.Column(db.Integer, db.ForeignKey('professores.id'), nullable=False)
-
-    # Relacionamento com Professor (muitas turmas para um professor)
     professor = db.relationship('Professor', backref='turmas', lazy=True)
 
     def __init__(self, descricao, ativo, professor_id):
@@ -26,7 +23,6 @@ class Turma(db.Model):
             'professor_id': self.professor_id
         }
 
-# Funções CRUD para Turma
 
 class TurmaNaoEncontrada(Exception):
     pass
