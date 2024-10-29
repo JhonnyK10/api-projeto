@@ -12,6 +12,14 @@
   <p><strong>Idade:</strong> {{ professor.idade }}</p>
   <p><strong>Matéria:</strong> {{ professor.materia }}</p>
   <p><strong>Observações:</strong> {{ professor.observacoes }}</p>
+  <h2>Turmas Associadas</h2>
+  <ul>
+    {% for turma in professor.turmas %}
+    <li>{{ turma.descricao }}</li>
+    {% else %}
+    <li>Sem turmas associadas</li>
+    {% endfor %}
+  </ul>
   <form action="{{ url_for('professores.delete_professor', id_professor=professor.id) }}" method="POST">
     <button type="submit">Excluir Professor</button>
   </form>

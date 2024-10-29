@@ -9,6 +9,8 @@ class Professor(db.Model):
     materia = db.Column(db.String(100), nullable=False)
     observacoes = db.Column(db.String(200))
 
+    turmas = db.relationship('Turma', back_populates='professor', cascade="all, delete-orphan")
+
     def __init__(self, nome, idade, materia, observacoes=None):
         self.nome = nome
         self.idade = idade
@@ -21,7 +23,8 @@ class Professor(db.Model):
             'nome': self.nome,
             'idade': self.idade,
             'materia': self.materia,
-            'observacoes': self.observacoes
+            'observacoes': self.observacoes,
+            'turmas': [{'id': turma.id, 'descricao': turma.descricao} for turma in self.turmas]
         }
 
 

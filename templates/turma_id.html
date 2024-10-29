@@ -10,7 +10,7 @@
   <p><strong>ID:</strong> {{ turma.id }}</p>
   <p><strong>Descrição:</strong> {{ turma.descricao }}</p>
   <p><strong>Ativo:</strong> {{ turma.ativo }}</p>
-  <p><strong>Professor ID:</strong> {{ turma.professor_id }}</p>
+  <p><strong>Professor:</strong> {{ turma.professor.nome if turma.professor else 'Sem professor' }}</p>
   <form action="{{ url_for('turmas.delete_turma', id_turma=turma.id) }}" method="POST">
     <button type="submit">Excluir Turma</button>
   </form>

@@ -1,56 +1,38 @@
 from flask import request, jsonify
-from models.aluno import Aluno
+from models.aluno import Aluno, aluno_por_id, listar_alunos, adicionar_aluno, atualizar_aluno, excluir_aluno, AlunoNaoEncontrado
+from models.turma import Turma
 from config import db
 
 def create_aluno():
     data = request.get_json()
-    new_aluno = Aluno(
-        nome=data['nome'],
-        idade=data['idade'],
-        turma=data['turma'],
-        data_nascimento=data['data_nascimento'],
-        nota_primeiro_semestre=data['nota_primeiro_semestre'],
-        nota_segundo_semestre=data['nota_segundo_semestre'],
-        media_final=data['media_final']
-    )
-    db.session.add(new_aluno)
-    db.session.commit()
+    turma_id = data.get('turma_id')
+    if not turma_id or not Turma.query.get(turma_id):
+        return jsonify({'message': 'Turma não encontrada!'}), 404
+    adicionar_aluno(data)
     return jsonify({'message': 'Aluno criado com sucesso!'}), 201
 
 def get_alunos():
-    alunos = Aluno.query.all()
-    return jsonify([aluno.to_dict() for aluno in alunos]), 200
+    alunos = listar_alunos()
+    return jsonify(alunos), 200
 
 def get_aluno(aluno_id):
-    aluno = Aluno.query.get(aluno_id)
-    if aluno:
-        return jsonify(aluno.to_dict()), 200
-    else:
+    try:
+        aluno = aluno_por_id(aluno_id)
+        return jsonify(aluno), 200
+    except AlunoNaoEncontrado:
         return jsonify({'message': 'Aluno não encontrado!'}), 404
 
 def update_aluno(aluno_id):
     data = request.get_json()
-    aluno = Aluno.query.get(aluno_id)
-    if aluno:
-        aluno.nome = data.get('nome', aluno.nome)
-        aluno.idade = data.get('idade', aluno.idade)
-        aluno.turma = data.get('turma', aluno.turma)
-        aluno.data_nascimento = data.get('data_nascimento', aluno.data_nascimento)
-        aluno.nota_primeiro_semestre = data.get('nota_primeiro_semestre', aluno.nota_primeiro_semestre)
-        aluno.nota_segundo_semestre = data.get('nota_segundo_semestre', aluno.nota_segundo_semestre)
-        aluno.media_final = data.get('media_final', aluno.media_final)
-        db.session.commit()
+    try:
+        atualizar_aluno(aluno_id, data)
         return jsonify({'message': 'Aluno atualizado com sucesso!'}), 200
-    else:
+    except AlunoNaoEncontrado:
         return jsonify({'message': 'Aluno não encontrado!'}), 404
 
 def delete_aluno(aluno_id):
-    aluno = Aluno.query.get(aluno_id)
-    if aluno:
-        db.session.delete(aluno)
-        db.session.commit()
+    try:
+        excluir_aluno(aluno_id)
         return jsonify({'message': 'Aluno deletado com sucesso!'}), 200
-    else:
+    except AlunoNaoEncontrado:
         return jsonify({'message': 'Aluno não encontrado!'}), 404
-
-

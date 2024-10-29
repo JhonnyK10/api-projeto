@@ -6,10 +6,7 @@ Como Testar:
 
 python app.py
 
-2- Acesse as rotas específicas:
+2- Acessar a pagina web: 
 
-2.1- Liste todos os alunos em http://localhost:8000/api/alunos
-
-2.2- Liste todos os professores em http://localhost:8000/api/professores
-
-2.3- Liste todas as turmas em http://localhost:8000/api/turmas
+Use esta seguinte url para acessar o projeto: http://localhost:8000/api/alunos
+(OBS: n fiz uma index, mas no caso essa seria a index)
