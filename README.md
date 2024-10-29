@@ -10,3 +10,9 @@ python app.py
 
 Use esta seguinte url para acessar o projeto: http://localhost:8000/api/alunos
 (OBS: n fiz uma index, mas no caso essa seria a index)
+
+Teste Unitario: 
+
+Digite no terminal o seguinte comando para ele realizar os testes: 
+
+python teste_unitario.py
