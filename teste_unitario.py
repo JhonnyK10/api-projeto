@@ -99,7 +99,6 @@ class TesteProjeto(unittest.TestCase):
         alunos = listar_alunos()
         self.assertEqual(len(alunos), 0)
 
-    # Testes para Professor
     def test_atualizar_professor(self):
         professor = listar_professores()[0]
         atualizar_professor(professor['id'], {
@@ -117,7 +116,6 @@ class TesteProjeto(unittest.TestCase):
         professores = listar_professores()
         self.assertEqual(len(professores), 0)
 
-    # Testes para Turma
     def test_adicionar_turma(self):
         professor = listar_professores()[0]
         nova_turma = {
